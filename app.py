@@ -7,7 +7,22 @@ from nltk.stem.porter import PorterStemmer
 
 ps = PorterStemmer()
 
+@st.cache_resource
+def load_nltk():
+    import nltk
+    import os
 
+    path = "/tmp/nltk_data"
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    nltk.data.path.append(path)
+
+    nltk.download('punkt', download_dir=path)
+    nltk.download('punkt_tab', download_dir=path)
+    nltk.download('stopwords', download_dir=path)
+
+load_nltk()
 def transform_text(text):
     text = text.lower()
     text = nltk.word_tokenize(text)
